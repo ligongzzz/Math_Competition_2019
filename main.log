@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  12 SEP 2019 21:20
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  13 SEP 2019 10:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2034,19 +2034,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--39
 [3]
 File: img/taxi_example.jpg Graphic file (type QTm)
  <use  "img/taxi_example.jpg" > [4]
-Underfull \hbox (badness 10000) in alignment at lines 74--83
+Underfull \hbox (badness 10000) in alignment at lines 77--91
 [][][] 
  []
 
+[5]
 No file main.bbl.
-[5] 
+[6] 
 AED: lastpage setting LastPage
-[6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 122.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 122.
+[7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 130.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 130.
  (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 122.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 122.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 130.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 130.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2057,12 +2058,12 @@ LaTeX Warning: There were undefined references.
  )
 (\end occurred when \iffalse on line 45 was incomplete) 
 Here is how much of TeX's memory you used:
- 43130 strings out of 493706
- 858134 string characters out of 6148914
- 918069 words of memory out of 5000000
- 45799 multiletter control sequences out of 15000+600000
+ 43139 strings out of 493706
+ 858600 string characters out of 6148914
+ 919069 words of memory out of 5000000
+ 45808 multiletter control sequences out of 15000+600000
  13416 words of font info for 88 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  76i,14n,77p,10448b,1125s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (6 pages).
+Output written on main.pdf (7 pages).
