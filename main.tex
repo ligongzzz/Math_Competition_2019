@@ -48,7 +48,7 @@
 国内机场一般将出租车乘车区分为上客区和下客区两个分开的区域，并且对于离开上客区的出租车，司机可以根据的意愿选择放空车辆直接离开或前往“蓄车池”载客。对于司机，他们可以得到当前“蓄车池”内的车的数量以及当前的航班数量来决定是否进入“蓄车池”等待，并且司机通常还可以根据自己的经验，结合季节、时间等因素判断乘客数量的多少。如果司机选择直接放空返回，则可能会有返回时的空载费用和载客的潜在收益的损失。对于机场管理者，他们需要在上客地点的等候区采取“分批定量”放行的措施来让乘客依次进入上客区乘车。\par
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/taxi_example.jpg}
+	\includegraphics[width=1.0\textwidth]{img/taxi_example.jpg}
 	\caption{机场出租车乘车区域示意图}
 	\label{taxi_example}
 \end{figure}
@@ -68,44 +68,143 @@
 	\item 每一个到达航班的需要乘坐出租车的乘客到达出租车乘车等候区的时间满足泊松分布。
 	\item 由于汽车在等待时耗油量极少，可以忽略不计，所以可以认为出租车在“蓄车池”等待期间不消耗成本。
 \end{enumerate}
+
+% 符号变量设置
+\newcommand{\flightnum}{$N_f$}
+\newcommand{\taxinum}{$N_c$}
+\newcommand{\waittime}{$t_w$}
+
 \section{符号说明}
 表\ref{table-symbol}列出了本文需要的符号。
 \begin{table}[H]
 	\centering
 	\caption{符号说明} 
 	\label{table-symbol}
-	\begin{tabular*}{0.62\textwidth}{ccc}
+	\begin{tabular*}{0.65\textwidth}{ccc}
 		\toprule
 		符号 & 意义 & 单位 \\
 		\midrule
-		$A$ & 一段时间内的航班数量 & 架 \\
-		$B$ & 蓄车池内的出租车数量 & 辆 \\
-		$T$ & 模型考察的时间长度 & $s$ \\
-		$t_1$ & 到达等候区的乘客数累计达到$B$的时刻 & $s$ \\
-		$t_2$ & 载客出租车返回市区的时刻 & $s$ \\
+		\flightnum & 一段时间内的航班数量 & 架 \\
+		\taxinum & 蓄车池内的出租车数量 & 辆 \\
+		$T$ & 模型考察的总时间长度 & $min$ \\
+		\waittime & 出租车司机等待的时间 & $min$ \\
+		$t_r$ & 出租车从机场返回市区的时间 & $min$ \\
+		$n_i$ & 第$i$架航班上需要乘坐出租车的人数 & 人 \\
+		$M_0$ & 一架航班乘坐出租车的人数最大值 & 人 \\
+		$\Delta t_f$ & 航班的时间间隔 & $min$ \\
+		$p_i$ & 第$i$架航班乘客乘坐出租车的概率 & \\
+		$q_i$ & 第$i$架航班乘客抵达候车区的时间分布 & \\
+		$\lambda_1$ & 航班乘坐出租车人数分布的均值 & \\
+		$\mu$ & 乘客到达乘车区时间正态分布均值 & \\
+		$\sigma$ & 乘客到达乘车区时间正态分布标准差 & \\
+		$N$ & 开始时蓄车池内出租车能够容纳的乘客人数 & 人 \\
+		$\overline{t_0}$ & 平均每辆车上车所需耗费时间 & $min$ \\
+		$t_1$ & 到达等候区乘客累计达到$N$的时刻 & $min$ \\
+		$t_2$ & 载客出租车返回市区的时刻 & $min$ \\
+		$t_{extra}$ & 出租车额外等待的时间 & $min$ \\
 		$\varepsilon_0$ & 平均每辆车的载客数 & 人$/$辆 \\
 		$E_1$ & 每辆出租车从空载返回到$t_2$时刻的利润 & ￥ \\
 		$E_2$ & 每辆出租车从进入蓄车池到$t_2$时刻的利润 & ￥ \\
-
+		$\overline{E_o}$ & 出租车行驶平均每分钟消耗油费 & ￥$/min$ \\
+		$\overline{E_i}$ & 出租车在市区内运营平均收入 & ￥$/min$ \\
+		$\overline{E_c}$ & 出租车平均载客返回收入 & ￥ \\
 		\bottomrule
 	\end{tabular*}
 \end{table}
 
 \section{问题分析}
 \subsection{问题一的分析}
-分析问题的本质，并且给出解决这个问题的基本步骤。
+问题一的本质就是要建立一个出租车司机关于一段时间内航班数量\flightnum 与当前蓄车池内出租车的数量\taxinum 的决策模型$f\left(\mbox{\flightnum},\mbox{\taxinum}\right)$，而这个模型可以分成如下的两个部分：
+\begin{enumerate}[(1)]
+	\item 出租车时间等待时间$t$与航班数量\flightnum 和蓄车池内出租车数量\taxinum 的预测模型$\mbox{\waittime}\left(\mbox{\flightnum},\mbox{\taxinum}\right)$，通过计算机模拟的方法，得出可行域内的不同\flightnum 和\taxinum 下的\waittime 的数值，可以绘制出\waittime 关于\flightnum 和\taxinum 的函数关系图像。
+	\item 建立数学模型，得到出租车不载客利润$E_1$和出租车载客利润$E_2$与出租车等待时间\waittime 之间的函数关系$E_1(\mbox{\waittime})$和$E_2(\mbox{\waittime})$，并做出出租车司机的决策$\max(E_1(\mbox{\waittime}),E_2(\mbox{\waittime}))$，由此得到出租车司机关于等待时间的决策函数$E(\mbox{\waittime})$。
+\end{enumerate}
+\par
+将如上的两个数学模型得到的函数$t\left(\mbox{\flightnum},\mbox{\taxinum}\right)$和$E(\mbox{\waittime})$联立，最终得到出租车司机关于\flightnum 和\taxinum 的决策函数$f(\mbox{\flightnum},\mbox{\taxinum})$。
 
 \subsection{问题二的分析}
 
 \subsection{问题三的分析}
 
+\subsection{问题四的分析}
+
 \section{模型建立}
-建立模型的数学推导和相关图示。
+针对本题，本文一共建立了三个数学模型：用于出租车司机决策的模型、用于设置机场停车点的模型、用于短途载客返回出租车优先权的模型。下面依次对这三个模型的建立作详细说明。
+\subsection{用于出租车司机决策的模型}
+用于出租车司机决策的模型一共分为出租车等待时间$\mbox{\waittime}\left(\mbox{\flightnum},\mbox{\taxinum}\right)$和出租车司机决策$E(\mbox{\waittime})$两个部分，以下依次描述这两个模型的具体建立过程，并将两个模型综合得到最终的决策模型。
+\subsubsection{出租车等待时间}
+乘客在乘车区排队等待出租车采用排队论中$M/G/1/\infty/N/FCFS$模型进行分析。出租车的等待时间分为两部分，一部分是乘客上车占用的时间$Bt_0$，另一部分是由于乘坐出租车的乘客前往乘车点的时间间隔过大，导致的出租车空闲等待的时间：
+\begin{equation}
+	t_{extra}=\sum_it_{extrai}
+	\label{eq:textrafunc}
+\end{equation}
+由此可以得到等待时间\waittime 的计算公式：
+\begin{equation}
+	\mbox{\waittime}=\mbox{\taxinum}\overline{t_0}+t_{extra}
+	\label{eq:tfunc}
+\end{equation}
+\par
+航班的之间的间隔$\Delta t_f$与总时间$T$和航班数目\flightnum 满足如下的关系：
+\begin{equation}
+	\Delta t_f=T/\mbox{\flightnum}
+	\label{eq:deltatf}
+\end{equation}
+对于一段时间内航班到达的数量分布，本文认为其满足均匀分布的规律。其中，对于每一架航班乘坐出租车的人数$n_i$，其与每一架航班乘坐出租车的最大人数$M_0$和该架航班上的乘客乘车概率$p_i$满足如下关系：
+\begin{equation}
+	n_i=M_0·p_i
+	\label{eq:passengernum}
+\end{equation}
+由此，我们可以通过公式\ref{eq:passengernum}来确定不同时间段到达机场的乘客的数量，对于概率$p_i$，本文认为其满足均值为$\lambda_1$的泊松分布:
+\begin{equation}
+	p_i(X=k)=\frac{\lambda_1}{k!}e^{-\lambda_1}
+	\label{eq:pi}
+\end{equation}
+对于进入等候区排队的乘客，考虑使用排队论中的模型。其中对于每一架到达的航班，从航班到达，至需要乘坐出租车的乘客抵达出租车等候区排队的时间，本文认为其关于时间的分布满足均值为$\mu$，标准差为$\sigma$的正态分布：
+\begin{equation}
+	q_i((i-1)\Delta t_f+t)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(t-\mu)^2}{2\sigma^2}},\quad t\ge0
+	\label{eq:qi}
+\end{equation}
+对于此时在蓄车池中的车辆数量，其数量\taxinum 与能够承载的乘客人数$N$满足如下关系：
+\begin{equation}
+	N=\mbox{\taxinum}·\varepsilon_0
+	\label{eq:N}
+\end{equation}
+根据以上描述的符号关系，与式\ref{eq:N}联立，我们可以列出承载乘客与到达乘客的关系：
+\begin{equation}
+	\sum_i\int_0^{t_1}M_0\cdot p_iq_i(t)\mathrm{d}t=\mbox{\taxinum}\cdot\varepsilon_0
+\end{equation}
+\subsubsection{出租车收益与等待时间关系}
+出租车的收益可以分为空再返回和等待载客两部分进行分别分析。分析的时间段为出租车下客完成（时间起点），至载客返回的出租车抵达市区的时间$t_2$。
+\begin{enumerate}[(1)]
+	\item \textbf{空载返回出租车收益。}\par
+	空载返回的出租车由于无需等待，所以其能够在空载返回市区后直接载客运营，故空载返回的出租车的收入为其在市区运营时的收入，其耗费为全程的油费。于是我们可以得到如下空载返回出租车收益$E_1$关于$t_2$的关系：
+	\begin{equation}
+		E_1(t_2)=\overline{E_i}\cdot(t_2-t_r)-\overline{E_o}\cdot t_2
+		\label{eq:E1}
+	\end{equation}
+	\item \textbf{载客出租车收益。}\par
+	由于载客出租车需要在蓄车池内等待乘客，而根据假设，蓄车池内等待不消耗任何成本，所以载客出租车的收入为载客从机场返回市区的收入，消耗为返回市区时的油耗。于是我们可以得到如下空载返回出租车的收益$E_2$的表达式：
+	\begin{equation}
+		E_2=\overline{E_c}-t_r\cdot\overline{E_o}
+		\label{eq:E2}
+	\end{equation}
+\end{enumerate}
+\par
+此外，我们还可以得到出租车等待时间\waittime 和载客出租车返回市区的时间$t_2$时间的关系：
+\begin{equation}
+	t_2=\mbox{\waittime}+t_r
+	\label{eq:t2}
+\end{equation}
+将式\ref{eq:E1}、\ref{eq:E2}、\ref{eq:t2}联立，我们可以得到用于司机决策的\waittime 的阈值，由此建立用于出租车司机决策的模型。
+\subsection{用于设置机场停车点的模型}
+
+\subsection{用于短途载客返回出租车优先权的模型}
 
 \section{问题解答}
 问题的具体解答过程，和解答过程中使用算法的伪代码。和最终计算出来的解答结果。
 
 \section{模型总结}
+\subsection{灵敏度分析}
 \subsection{模型优点}
 \begin{enumerate}
 	\item 把模型的有点一一列举出来。
