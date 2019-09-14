@@ -29,7 +29,7 @@
 % 摘要和关键字
 \begin{abstract}
 	摘要部分，是文章最为重要的部分之一，一般放在最后来写。
-	引用一些参考文献\cite{citetest}。首先简要概括一下题目。\par
+	引用一些参考文献。首先简要概括一下题目。\par
 	\textbf{针对问题一}\quad
 	对问题一的解答的概括。\par
 	\textbf{针对问题二}\quad
@@ -66,7 +66,7 @@
 	\item 本文认为在我们考虑的一段时间之内，航班到达机场的时间分布是均匀的。
 	\item 在一段时间之内，各个航班到达的乘客前往出租车乘车区域乘车的人数符合泊松分布。
 	\item 每一个到达航班的需要乘坐出租车的乘客到达出租车乘车等候区的时间满足泊松分布。
-	\item 由于汽车在等待时耗油量极少，可以忽略不计，所以可以认为出租车在“蓄车池”等待期间不消耗成本。
+	\item 由于汽车在等待时由于仍在运行中，其耗油量近似为正常运行时的$\frac{1}{2}$，所以可以认为出租车在“蓄车池”等待期间消耗的油量较正常运行时更低。
 \end{enumerate}
 
 % 符号变量设置
@@ -103,11 +103,11 @@
 		$t_2$ & 载客出租车返回市区的时刻 & $min$ \\
 		$t_{extra}$ & 出租车额外等待的时间 & $min$ \\
 		$\varepsilon_0$ & 平均每辆车的载客数 & 人$/$辆 \\
-		$E_1$ & 每辆出租车从空载返回到$t_2$时刻的利润 & ￥ \\
-		$E_2$ & 每辆出租车从进入蓄车池到$t_2$时刻的利润 & ￥ \\
-		$\overline{E_o}$ & 出租车行驶平均每分钟消耗油费 & ￥$/min$ \\
-		$\overline{E_i}$ & 出租车在市区内运营平均收入 & ￥$/min$ \\
-		$\overline{E_c}$ & 出租车平均载客返回收入 & ￥ \\
+		$E_1$ & 每辆出租车从空载返回到$t_2$时刻的利润 & 元 \\
+		$E_2$ & 每辆出租车从进入蓄车池到$t_2$时刻的利润 & 元 \\
+		$\overline{E_o}$ & 出租车正常行驶平均每分钟油费 & 元$/min$ \\
+		$\overline{E_{wo}}$ & 出租车排队时平均每分钟油费 & 元$/min$ \\		$\overline{E_i}$ & 出租车在市区内运营平均收入 & 元$/min$ \\
+		$\overline{E_c}$ & 出租车平均载客返回收入 & 元 \\
 		\bottomrule
 	\end{tabular*}
 \end{table}
@@ -123,9 +123,16 @@
 将如上的两个数学模型得到的函数$t\left(\mbox{\flightnum},\mbox{\taxinum}\right)$和$E(\mbox{\waittime})$联立，最终得到出租车司机关于\flightnum 和\taxinum 的决策函数$f(\mbox{\flightnum},\mbox{\taxinum})$。
 
 \subsection{问题二的分析}
+问题二的本质是需要根据搜集国内的某一个机场的实际数据，带入问题一中得到的模型，得到不同条件下出租车司机的最佳选择策略，由此对问题一中的模型进行数值上的验证，所以问题二的解决需要分为如下几个步骤：
+\begin{enumerate}[(1)]
+	\item 收集国内某一城市的机场航班数量分布情况、出租车出入场、场内出租车数量、该城市机场到市区出租车均价、单位时间油耗价格和出租车单位时间正常收入。
+	\item 根据收集到的数据，带入问题一中建立的模型，计算出租车司机等待时间的阈值$t_{w0}$。
+	\item 根据收集到的参数，绘制出$t_w-N_f,N_c$图像，作平面$\alpha:t_w=t_{w0}$，得到平面$\alpha$和$t_w$平面的交线$l:\alpha\cap t_w(N_f,N_c)$,则$l$即为$t_w$的阈值曲线。
+	\item 根据收集到的数据，随机抽取部分数据，带入上述模型进行计算，得到预计的等待时间$\hat{t_w}$，与实际的等待时间进行比较，分析模型的误差和对相关因素的敏感程度。
+\end{enumerate}
 
 \subsection{问题三的分析}
-
+问题三要求给出一个合理的乘客“上车点”设置方式，在保证安全的前提之下，能够降低乘客的平均等待时间。
 \subsection{问题四的分析}
 
 \section{模型建立}
@@ -185,7 +192,7 @@
 	\item \textbf{载客出租车收益。}\par
 	由于载客出租车需要在蓄车池内等待乘客，而根据假设，蓄车池内等待不消耗任何成本，所以载客出租车的收入为载客从机场返回市区的收入，消耗为返回市区时的油耗。于是我们可以得到如下空载返回出租车的收益$E_2$的表达式：
 	\begin{equation}
-		E_2=\overline{E_c}-t_r\cdot\overline{E_o}
+		E_2=\overline{E_c}-t_r\cdot\overline{E_o}-t_2\cdot\overline{E_{wo}}
 		\label{eq:E2}
 	\end{equation}
 \end{enumerate}
@@ -201,13 +208,102 @@
 \subsection{用于短途载客返回出租车优先权的模型}
 
 \section{问题解答}
-问题的具体解答过程，和解答过程中使用算法的伪代码。和最终计算出来的解答结果。
+\subsection{问题一的解答}
+对于问题一，本文建立了出租车司机的决策模型。这个模型分为出租车等候时间和出租车收益两个部分，根据以上建立的模型分别对这两个模块进行求解。\par
+对于出租车等候时间，在选定的时间范围之内，建立了航班到达、乘客前往乘车区，和乘客在乘车区排队上车的模型，即出租车的等待时间\waittime 关于航班数量\flightnum 和蓄车池内出租车数量\taxinum 的函数关系，并使用如图\ref{fi:program1}所示的程序模拟了这一过程。
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/program1.jpg}
+	\caption{出租车等待时间模拟程序框图}
+	\label{fi:program1}
+\end{figure}
+\par
+该计算机程序的算法的运行主要分为如下几个步骤：
+\begin{enumerate}[(1)]
+	\item 程序接收输入的两个数据：一段时间内的航班数量\flightnum 和此时蓄车池内的出租车数量\taxinum ，由此计算出航班之间的间隔时间。
+	\item 当每一架航班到达时，程序调用random函数根据泊松分布的规律，计算出每一架航班的人数。
+	\item 将每一架航班到达的人数按照正态分布的时间规律，加入到不同时间段内的人数的数组中，实现排队队列的模拟功能。直到到达队列中的人数达到蓄车池内的出租车能够容纳的人数$N$为止，结束循环。
+	\item 模拟一个队列，将各个时间的排队的数量依次加入乘车队列中，与此同时蓄车池内的出租车按照一定的时间间隔进行载客。最后计算整个过程花费的时间，并输出结果。
+\end{enumerate}
+通过运行如图所示的程序，我们得到了不同条件下的出租车司机需要等待的时长。取不同的\flightnum 和\taxinum 的值，输入程序，可以得到如图\ref{fi:problem1func}所示的函数图像。
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{img/problem1_func.jpg}
+	\caption{\waittime$(\mbox{\flightnum,\taxinum})$函数图像}
+	\label{fi:problem1func}
+\end{figure}
+\par
+对于出租车收益，通过联立式\ref{eq:E1}、式\ref{eq:t2}和式\ref{eq:E2}可以得到等待时间\waittime 的分界值：
+\begin{equation}
+	\mbox{\waittime}_0=\frac{\overline{E_c}-\overline{E_{wo}}\cdot t_r}{\overline{E_t}-\overline{E_o}+\overline{E_{wo}}}
+	\label{eq:tw}
+\end{equation}
+\par
+综上所述，根据如下关系，可以得出出租车司机的最佳决策：
+\begin{equation}
+	\begin{cases}
+		\mbox{  空载返回} &  \mbox{\waittime}(\mbox{\flightnum,\taxinum})\ge\mbox{\waittime}_0 ,\\
+        \mbox{  等待载客} &  \mbox{\waittime}(\mbox{\flightnum,\taxinum})<\mbox{\waittime}_0  .
+	\end{cases}
+\end{equation}
+\subsection{问题二的解答}
+对于问题二，我们从各种渠道收集了关于国内某城市的机场和出租车的多种数据，用于对问题一中建立的模型进行正确性的分析与评估。\par
+\begin{enumerate}[(1)]
+	\item \textbf{出租车等待时间阈值计算。}\par
+	我们收集了问题一中的模型中所需要的基本数据，这些数据在表中列出。
+	\begin{table}[H]
+		\centering
+		\caption{城市出租车基本数据\cite{taxidata,taxireport}} 
+		\label{table-symbol}
+		\begin{tabular*}{0.31\textwidth}{ccc}
+			\toprule
+			项目 & 值 & 单位 \\
+			\midrule
+			平均车速 & 31.23 & $km/h$ \\
+			空驶率 & $21.13\%$ & \\
+			单价 & 1.82 & 元$/km$ \\
+			油费 & 0.54 & 元$/km$ \\
+			$\overline{E_c}$ & 62 & 元 \\
+			$t_r$ & 50 & min \\
+			\bottomrule
+		\end{tabular*}
+	\end{table}
+	根据这个表格，可以计算出单位时间出租车平均收入$\overline{E_t}=0.75\mbox{元}/min$，单位时间出租车正常行驶平均油费$\overline{E_o}=0.28\mbox{元}/min$，排队中出租车单位时间平均油费$\overline{E_{wo}}=0.14\mbox{元}/min$。将该数据与上表数据代入式\ref{eq:tw}进行计算，计算得到的阈值：
+	\begin{equation}
+		\mbox{\waittime}_0=\frac{\overline{E_c}-\overline{E_{wo}}\cdot t_r}{\overline{E_t}-\overline{E_o}+\overline{E_{wo}}}=90\,min
+	\end{equation}
+	即若预计的等待时间$\hat{t_w}\ge90min$时，出租车选择空载返回；否则选择前往蓄车池内等待载客。
+	\item \textbf{出租车等待时间预测。}\par
+	根据某城市机场在一天内航班起降的数据，以及一天之内各个时间段的场内出租车数和出租车数据，使用问题一中的模型对出租车的等待时间进行了计算。其中，到达乘客乘坐出租车的占比为28\%，每架航班平均载客数量为100人\cite{taxidata,flightdata}，取$\mu=10$,$\sigma=6$，得到如图\ref{fi:problem2func}所示的函数图像：
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{img/problem2_func.jpg}
+		\caption{实际参数下的\waittime$(\mbox{\flightnum,\taxinum})$函数图像}
+		\label{fi:problem2func}
+	\end{figure}
+	\begin{figure}[H]   
+		\centering   
+		\includegraphics[width=1.0\textwidth]{img/problem2_pred.jpg}   
+		\caption{出租车司机决策预测}   
+		\label{fi:problem2pred}    
+	\end{figure}
+	图\ref{fi:problem2func}反映了在不同的\flightnum 和\taxinum 下的$\hat{t_w}$和$t_w$的大小分布情况，图\ref{fi:problem2pred}反应的是在不同的\flightnum 和\taxinum 下，出租车做出的决策的预测是空载返回（实心点）或是进入蓄车池等待载客（空心点）。\par
+	根据预测得到的不同\flightnum 和\taxinum 下的$\hat{t_w}$与$t_w$进行比较，计算出模型的相对误差：
+	\begin{equation}
+		e_1=\frac{\left| \hat{t_w}-t_w\right| }{t_w}\times100\%=10.36\%
+	\end{equation}
+	由此可以看出，该模型与实际情况的误差在合理范围之内，可以用于预测现实情况下的司机的等待时间。	
+\end{enumerate}
+
+\subsection{问题三的解答}
+
+\subsection{问题四的解答}
 
 \section{模型总结}
 \subsection{灵敏度分析}
 \subsection{模型优点}
 \begin{enumerate}
-	\item 把模型的有点一一列举出来。
+	\item 把模型的优点一一列举出来。
 \end{enumerate}
 
 \subsection{模型缺点}
@@ -215,7 +311,6 @@
 	\item 把模型的缺点一一列举出来。
 \end{enumerate}
 
-\bibliographystyle{plain}
 \bibliography{ref}
 
 \newpage

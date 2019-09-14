@@ -104,6 +104,7 @@ pdfstartview = FitH
 \RequirePackage{array}
 \RequirePackage{float}
 \RequirePackage{flowchart}
+\usepackage[numbers]{gbt7714}
 
  % Algorithm and program code Packages
 \usepackage{listings}
