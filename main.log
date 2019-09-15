@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  15 SEP 2019 10:44
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  15 SEP 2019 14:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2045,76 +2045,75 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--39
 [3]
 File: img/taxi_example.jpg Graphic file (type QTm)
  <use  "img/taxi_example.jpg" > [4]
-Underfull \hbox (badness 10000) in alignment at lines 85--118
+Underfull \hbox (badness 10000) in alignment at lines 85--121
 [][][] 
  []
 
 [5] [6] [7] [8]
 File: img/problem3_double.jpg Graphic file (type QTm)
- <use  "img/problem3_double.jpg" >
+ <use  "img/problem3_double.jpg" > [9]
 
-Package natbib Warning: Citation `queuebook' on page 9 undefined on input line 229.
+Package natbib Warning: Citation `queuebook' on page 10 undefined on input line 239.
 
-[9]
 File: img/problem3_single.jpg Graphic file (type QTm)
- <use  "img/problem3_single.jpg" >
+<use  "img/problem3_single.jpg" > [10]
 
-Package natbib Warning: Citation `queuebook' on page 10 undefined on input line 247.
+Package natbib Warning: Citation `queuebook' on page 11 undefined on input line 257.
 
-[10]
+[11]
 File: img/program1.jpg Graphic file (type QTm)
- <use  "img/program1.jpg" >
+ <use  "img/program1.jpg" > [12]
 File: img/problem1_func.jpg Graphic file (type QTm)
- <use  "img/problem1_func.jpg" > [11]
+ <use  "img/problem1_func.jpg" >
 
-Package natbib Warning: Citation `taxidata' on page 12 undefined on input line 302.
-
-
-Package natbib Warning: Citation `taxireport' on page 12 undefined on input line 302.
+Package natbib Warning: Citation `taxidata' on page 13 undefined on input line 348.
 
 
-Package natbib Warning: Citation `taxidata' on page 12 undefined on input line 302.
+Package natbib Warning: Citation `taxireport' on page 13 undefined on input line 348.
 
 
-Package natbib Warning: Citation `taxireport' on page 12 undefined on input line 302.
+Package natbib Warning: Citation `taxidata' on page 13 undefined on input line 348.
 
 
-Underfull \hbox (badness 10000) in alignment at lines 304--315
+Package natbib Warning: Citation `taxireport' on page 13 undefined on input line 348.
+
+
+Underfull \hbox (badness 10000) in alignment at lines 350--361
 [][][] 
  []
 
-[12]
+[13]
 
-Package natbib Warning: Citation `taxidata' on page 13 undefined on input line 323.
+Package natbib Warning: Citation `taxidata' on page 14 undefined on input line 369.
 
 
-Package natbib Warning: Citation `flightdata' on page 13 undefined on input line 323.
+Package natbib Warning: Citation `flightdata' on page 14 undefined on input line 369.
 
 File: img/problem2_func.jpg Graphic file (type QTm)
 <use  "img/problem2_func.jpg" >
 File: img/problem2_pred.jpg Graphic file (type QTm)
- <use  "img/problem2_pred.jpg" > [13]
+ <use  "img/problem2_pred.jpg" > [14]
 
-Package natbib Warning: Citation `flightdata' on page 14 undefined on input line 358.
+Package natbib Warning: Citation `flightdata' on page 15 undefined on input line 404.
 
 
-Overfull \hbox (30.5453pt too wide) in alignment at lines 363--371
+Overfull \hbox (30.5453pt too wide) in alignment at lines 409--417
 [][] 
  []
 
-[14]
+[15] [16]
 No file main.bbl.
-[15] 
+
 AED: lastpage setting LastPage
-[16]
+[17]
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 404.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 404.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 451.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 451.
 (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 404.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 404.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 451.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 451.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2125,12 +2124,12 @@ LaTeX Warning: There were multiply-defined labels.
  )
 (\end occurred when \iffalse on line 45 was incomplete) 
 Here is how much of TeX's memory you used:
- 43546 strings out of 493706
- 864661 string characters out of 6148914
- 936044 words of memory out of 5000000
- 46202 multiletter control sequences out of 15000+600000
+ 43549 strings out of 493706
+ 864723 string characters out of 6148914
+ 937137 words of memory out of 5000000
+ 46205 multiletter control sequences out of 15000+600000
  13416 words of font info for 88 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  76i,14n,77p,10448b,1125s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (16 pages).
+Output written on main.pdf (17 pages).
