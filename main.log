@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  15 SEP 2019 00:28
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/W32TeX) (preloaded format=xelatex 2019.1.6)  15 SEP 2019 10:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1828,6 +1828,9 @@ Package: xeCJK-listings 2015/05/15 v3.3.2 xeCJK patch file for listings
 
 LaTeX Warning: Label `table-symbol' multiply defined.
 
+
+LaTeX Warning: Label `table-symbol' multiply defined.
+
 )
 \openout1 = `main.aux'.
 
@@ -2042,55 +2045,76 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--39
 [3]
 File: img/taxi_example.jpg Graphic file (type QTm)
  <use  "img/taxi_example.jpg" > [4]
-Underfull \hbox (badness 10000) in alignment at lines 83--112
+Underfull \hbox (badness 10000) in alignment at lines 85--118
 [][][] 
  []
 
 [5] [6] [7] [8]
+File: img/problem3_double.jpg Graphic file (type QTm)
+ <use  "img/problem3_double.jpg" >
+
+Package natbib Warning: Citation `queuebook' on page 9 undefined on input line 229.
+
+[9]
+File: img/problem3_single.jpg Graphic file (type QTm)
+ <use  "img/problem3_single.jpg" >
+
+Package natbib Warning: Citation `queuebook' on page 10 undefined on input line 247.
+
+[10]
 File: img/program1.jpg Graphic file (type QTm)
  <use  "img/program1.jpg" >
 File: img/problem1_func.jpg Graphic file (type QTm)
- <use  "img/problem1_func.jpg" > [9]
+ <use  "img/problem1_func.jpg" > [11]
 
-Package natbib Warning: Citation `taxidata' on page 10 undefined on input line 256.
-
-
-Package natbib Warning: Citation `taxireport' on page 10 undefined on input line 256.
+Package natbib Warning: Citation `taxidata' on page 12 undefined on input line 302.
 
 
-Package natbib Warning: Citation `taxidata' on page 10 undefined on input line 256.
+Package natbib Warning: Citation `taxireport' on page 12 undefined on input line 302.
 
 
-Package natbib Warning: Citation `taxireport' on page 10 undefined on input line 256.
+Package natbib Warning: Citation `taxidata' on page 12 undefined on input line 302.
 
 
-Underfull \hbox (badness 10000) in alignment at lines 258--269
+Package natbib Warning: Citation `taxireport' on page 12 undefined on input line 302.
+
+
+Underfull \hbox (badness 10000) in alignment at lines 304--315
 [][][] 
  []
 
-[10]
+[12]
 
-Package natbib Warning: Citation `taxidata' on page 11 undefined on input line 277.
+Package natbib Warning: Citation `taxidata' on page 13 undefined on input line 323.
 
 
-Package natbib Warning: Citation `flightdata' on page 11 undefined on input line 277.
+Package natbib Warning: Citation `flightdata' on page 13 undefined on input line 323.
 
 File: img/problem2_func.jpg Graphic file (type QTm)
 <use  "img/problem2_func.jpg" >
 File: img/problem2_pred.jpg Graphic file (type QTm)
- <use  "img/problem2_pred.jpg" > [11]
+ <use  "img/problem2_pred.jpg" > [13]
+
+Package natbib Warning: Citation `flightdata' on page 14 undefined on input line 358.
+
+
+Overfull \hbox (30.5453pt too wide) in alignment at lines 363--371
+[][] 
+ []
+
+[14]
 No file main.bbl.
-[12] 
+[15] 
 AED: lastpage setting LastPage
-[13]
+[16]
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 324.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 324.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 404.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 404.
 (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 324.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 324.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 404.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 404.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2101,12 +2125,12 @@ LaTeX Warning: There were multiply-defined labels.
  )
 (\end occurred when \iffalse on line 45 was incomplete) 
 Here is how much of TeX's memory you used:
- 43535 strings out of 493706
- 864492 string characters out of 6148914
- 929820 words of memory out of 5000000
- 46193 multiletter control sequences out of 15000+600000
+ 43546 strings out of 493706
+ 864661 string characters out of 6148914
+ 936044 words of memory out of 5000000
+ 46202 multiletter control sequences out of 15000+600000
  13416 words of font info for 88 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  76i,14n,77p,10448b,1125s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (13 pages).
+Output written on main.pdf (16 pages).
