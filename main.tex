@@ -23,21 +23,22 @@
  \input{declaration.tex}
 
 \begin{minipage}{0.9\textwidth}
-\centering\LARGE\textbf{机场的出租车问题}
+\centering\LARGE\textbf{出租车的动态调度问题}
 \end{minipage}
 
 % 摘要和关键字
 \begin{abstract}
-	摘要部分，是文章最为重要的部分之一，一般放在最后来写。
-	引用一些参考文献。首先简要概括一下题目。\par
+	在大数据时代，通过分析一些重要的客流量大的枢纽场所的客流数据，设计出交通枢纽的合理的调度方式，成为了一个非常重要的课题。本题以机场陆侧的出租车交通组织模式为切入点，站在不同的角度对机场出租车的组织模式提出了需求。本文使用了基于排队论构建的模型，分析了不同场景下，不同的出租车组织模式对出租车运输效率的影响。利用MATLAB进行了交通场景的仿真模拟，并使用多种优化算法求解出最优解，最后分析了模型的依赖性和优缺点。\par
 	\textbf{针对问题一}\quad
-	对问题一的解答的概括。\par
+	在问题一中，由于出租车司机能观测到某时间段抵达的航班数量和“蓄车池”里已有的车辆数，故针对选择排队等待拉客还是直接选择返回市区应以这能观测到的两个参数作为主要参考依据。因此，我们只需要简单地做出线性规划问题，求出对应于不同参数采取不同的选择。由于航班来临的时刻人数会出现一种符合正态分布的曲线到达‘乘车区’，而此时‘蓄车池’中出租车数量的多少又会正比于等待时间，于是可以推测出选择等待后需要等待的时间，然后假定在相同长一段时间内，直接返回市区考虑平均每分钟的收益和在等待区载客并载客后的收益进行比较来综合判断如何选择。\par
 	\textbf{针对问题二}\quad
-	对问题二的解答的概括。\par
+	根据河南郑州新郑国际机场的出租车动态变化网页，经过一昼夜爬虫后得到一昼夜的出租车的动态变化表，根据该段时间内到达郑州航班的多少，选择以2个小时内作为基准，代入问题一所建立的出租车等待模型，综合对比理论值和实际值之间的区别并求取平均值，求得平均相对误差不超过0.1036.然后根据问题一得到的分界值来进行选择。在机场出租车系统正常调度的情况下，相对误差不超过0.1，但同时也对当时出租车以外的交通系统的变化有着较大的依赖性。\par
 	\textbf{针对问题三}\quad
-	对问题三的解答的概括。
+	对于题目给定的双车道并行的场景，设计了不同的“上车点”和乘客安排方式。对于单停车道模型和双停车道模型，本文分别使用了排队论中的$M/M/1$和$M/M/2$模型对乘客在队列中的平均等待时间进行了分析和计算。本文对两种不同的排队模型进行了比较，得出了在不同条件下优先采取某种排队模型的结论。并证明了在乘客到达速率小于出租车到达速率的条件下，优先采用双停车道模型，在乘客到达速率大于出租车到达速率的条件下，优先考虑单停车道模型。\par
+	\textbf{针对问题四}\quad
+	对于问题四，我们认为载客的行程越长，出租车的载客收益也就越大，于是采取对载客行程较短的出租车给予他们一定的优先权。综合考虑出租车在上一次等待时长和这一次载客的收益，得出该出租车的“优先值”，然后设置一个“优先阙值”，大于该“优先阙值”即可直接插入到优先级高的车道，并且拥有优先载客的权利，但是对于低优先级的车，被插队次数不应超过一定的值，于是通过对上述优先值算法，“优先阙值”，被插队次数最大值进行遗传算法，退火算法，粒子群算法得到每个出租车收益的方差的最小值时所满足的条件，根据该条件来安排一个可行的“优先”方案。
 \\\par
-\textbf{关键词\quad MATLAB\quad \LaTeX}
+\textbf{关键词\quad 排队论\quad 动态调度\quad 遗传算法\quad 退火算法\quad 粒子群算法}
 \end{abstract}
 
 \newpage
@@ -69,6 +70,7 @@
 	\item 根据统计学规律，在一段时间之内，各个航班到达的乘客前往出租车乘车区域乘车的人数符合泊松分布。
 	\item 根据统计学规律，每一个到达航班的需要乘坐出租车的乘客到达出租车乘车等候区的时间满足正态分布。
 	\item 由于汽车在等待时由于仍在运行中，其耗油量近似为正常运行时的$\frac{1}{2}$，所以可以认为出租车在“蓄车池”等待期间消耗的油量较正常运行时更低。
+	\item 根据统计学规律，从机场离开的出租车前往目的地的距离满足正态分布的规律。
 \end{enumerate}
 
 % 符号变量设置
@@ -424,17 +426,96 @@
 	\end{cases}
 \end{equation}
 \subsection{问题四的解答}
-
+根据上述的算法，我们设计了如下伪代码的算法来模拟这个过程，计算出出租车单位时间的方差平均值$\overline{E_a}$。
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\begin{algorithm} [H] 
+	\caption{模拟机场出租车算法} %算法的题目 
+	\label{al:problem4} %算法的标签 
+	\begin{algorithmic}[1] %此处的[1]控制一下算法中的每句前面都有标号 
+		\REQUIRE {参数$\alpha$、$\beta$和阈值$r_0$}
+		\ENSURE{出租车的单位时间平均收入的方差$\sigma^2$}
+		\WHILE{剩余的出租车数量$\ge 0$}
+		\IF{下一辆出租车的优先级为高}
+		\STATE 加入优先车道
+		\ELSE
+		\STATE 加入普通车道
+		\ENDIF
+		\STATE 按照$\beta:1$比例从车道内选出一辆车
+		\STATE $d\leftarrow N(\mu,\sigma^2)$
+		\IF{$d>d_0\;\mathbf{and}\;choose=True$}
+		\STATE $r\leftarrow f(d,t_w)$
+		\IF{$r\le r_0$}
+		\STATE 优先级为高
+		\ELSE
+		\STATE 优先级为低
+		\ENDIF
+		\ELSE
+		\STATE $\overline{E_{ai}}\leftarrow \frac{1}{T_{total}}\sum\limits_j E_j(d)$
+		\ENDIF
+		\ENDWHILE
+		\STATE $\sigma^2\leftarrow var(\overline{E_a})$
+	\end{algorithmic} 
+\end{algorithm}
+使用该算法，可以求得在不同参数条件下的方差$\sigma^2$，要调整参数使方差最小化，可以使用如下的几种全局优化算法来快速求得条件范围内的最小值。
+\begin{enumerate}[(1)]
+	\item \textbf{遗传算法。}\par
+	遗传算法(Genetic Algorithms,\;GA)代表了一种用于了解多个参数关于模型的结果的相关因素的方法，而任何东西都可以用作遗传算法的数据。包括数字、文字、图像等。在遗传算法的进化计算的过程中，模拟生物的基因变异或交换的过程，允许那些适应度高的的基因进一步繁殖，适应度低的基因则死亡\cite{ga_al}。\par
+	通过遗传算法，我们可以很轻松地计算出多参数的连续函数在指定范围内的最优解。我们构建了如下的有限范围内的优化问题，用于遗传算法的计算：
+	\begin{equation}
+		\begin{aligned}
+			\min\quad & \sigma^2(\overline{E_a}) \\
+			s.t.\quad & 1\le \alpha \le 100 \\
+			& 1000\le r_0 \le 10000 \\
+			& 1\le \beta \le 10 \\
+		\end{aligned}
+	\end{equation}
+	设定其它参数（详见附录中程序数据）后，另外将上述范围输入遗传算法运行，最终计算的方差的最小值：$\sigma_{min}^2=0.0272$，此时$\alpha=99.8,r_0=2421.8,\beta=2.8$。
+	\item \textbf{模拟退火算法。}\par
+	模拟退火算法(Simulated Annealing, SA)是一种局部搜索算法的扩展。它模拟了金属在退火过程中的能量变化，在每一次迭代的过程中以一定的机率选择相邻区域能量较大的状态\cite{sa_al}。它从理论上而言是一种全局最优算法，能够快捷地找到一个多元函数的全局最小值或最大值点。\par
+	设定如遗传算法中的参数和数据范围，输入模拟退火算法进行计算，最终计算的方差的最小值：$\sigma_{min}^2=0.0281$，此时$\alpha=99.9,r_0=4898.1,\beta=9.2$。
+	\item \textbf{粒子群算法。}\par
+	粒子群优化算法(Particle Swarm optimization,\;PSO)是通过模拟鸟群的觅食行为，形成的一种基于群体协作原理的随机搜索算法。在PSO算法中，所有的粒子都有一个适应值和速度，通过不断迭代，跟踪个体极值和全局极值，来找到全局的最优解\cite{pso_al}。\par
+	设定如遗传算法中的参数和数据范围，输入粒子群算法进行计算，最终计算的方差的最小值：$\sigma_{min}^2=0.0271$，此时$\alpha=100.0,r_0=2420.8,\beta=1.0$。
+\end{enumerate}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{img/problem4_al.jpg}
+	\caption{三种优化算法的比较}
+	\label{fi:problem4al}
+\end{figure}
+\par
+图为以上三种算法收敛的过程，通过比较以上三种全局优化算法，可以看出粒子群算法对本模型最为适用。收敛速度快，且得到的方差结果最小。\par
+综上所述，对于本模型假定的其余参数，当模型的三个主要参数为$\sigma_{min}^2=0.0271,\alpha=100.0,r_0=2420.8,\beta=1.0$时，出租车司机的收益最为均衡。
 \section{模型总结}
 \subsection{灵敏度分析}
+我们对出租车司机决策模型做出分析。对于不同的机场，其蓄车池的容量可能有较大的差距，而即使是对同一座机场，不同的时间也会有不同的航班到达间隔。而考虑到出租车司机在获取这两个信息时都可能存在一定的偏差，因此，有必要对该模型对蓄车池的容量和航班到达间隔的变化的灵敏度做出分析。\par
+\begin{figure}[H]
+	\begin{minipage}[t]{0.5\linewidth}   
+	  \centering   
+	  \includegraphics[width=\textwidth]{img/check_1.jpg}   
+	  \caption{蓄车池容量对等待时间的影响}   
+	  \label{fi:check_1}   
+	\end{minipage}
+	 \begin{minipage}[t]{0.5\linewidth}
+		\centering   
+		\includegraphics[width=\textwidth]{img/check_2.jpg}   
+		\caption{航班间隔时间对等待时间的影响}   
+		\label{fi:check_2}   
+	  \end{minipage} 
+  \end{figure}
+从模型计算得出的数据和图\ref{fi:check_1}、图\ref{fi:check_2}容易看出，蓄车池容量的变化对等待时间的影响，比航班间隔变化对等待时间的影响更大。也即等待时间对蓄车池的容量更加敏感。因此对于司机来说，正确的判断蓄车池内此时正在等候的汽车数目，更加有利于其做出正确的判断。这也与实际情况符合较好：一般的停车场都会用电子显示屏显示出此时停车场内的容量，而航班到达间隔这个信息要稍加难获取一些。
 \subsection{模型优点}
 \begin{enumerate}
-	\item 把模型的优点一一列举出来。
+	\item 模型在建立时经历了较为广泛的调研，考虑了很多不同的实际情况，在设置不同的参量时使用了大量来源于实际生活的数据，增强了模型的普适性以及实际意义。
+	\item 在建立模型时，我们使用了计算机编程的方法，对每个模型的过程都进行了仿真，将预测得到的数据和实际数据进行了对比并将对比结果进行了可视化表示，提高了结果的准确度，也使得结果更加直观。
+	\item 在解决问题二的时候，我们采用了网络爬虫技术收集了一座机场的数据，得到了大量真实且精确的数据，也避免了把人力无谓地浪费在实地收集数据上。
+	\item 在解决问题四时，我们采用了遗传算法来对模型中的参数进行优化，使参数的选择更加合理。
 \end{enumerate}
-
 \subsection{模型缺点}
 \begin{enumerate}
-	\item 把模型的缺点一一列举出来。
+	\item 由于本题涉及到的实际情景非常复杂，可能影响结果的变量有很多，我们选择性地忽略了其中一些对结果影响不大的变量作为近似，比如问题三中隧道和车辆的长度等问题。
+	\item 由于模型考虑了较多的实际情况，导致有些过程略显繁琐。
 \end{enumerate}
 
 \newpage
@@ -444,8 +525,393 @@
 \appendix
 \textbf{附录}
 \section{模型代码}
-\subsection{问题一代码}
+\subsection{出租车等待时间计算代码}
 \begin{lstlisting}
-	% 这里放置代码
+	%% 设置导入选项
+opts = spreadsheetImportOptions("NumVariables", 5);
+
+% 指定工作表和范围
+opts.Sheet = "data";
+opts.DataRange = "A2:E1232";
+
+% 指定列名称和类型
+opts.VariableNames = ["VarName1", "VarName2", "VarName3", "VarName4", "VarName5"];
+opts.SelectedVariableNames = ["VarName1", "VarName2", "VarName3", "VarName4", "VarName5"];
+opts.VariableTypes = ["categorical", "double", "double", "double", "double"];
+opts = setvaropts(opts, 1, "EmptyFieldRule", "auto");
+
+% 导入数据
+tbl = readtable("data.xlsx", opts, "UseExcel", false);
+
+%% 转换为输出类型
+VarName1 = tbl.VarName1;
+VarName2 = tbl.VarName2;
+VarName3 = tbl.VarName3;
+VarName4 = tbl.VarName4;
+VarName5 = tbl.VarName5;
+
+%% 清除临时变量
+clear opts tbl
+
+
+%% 设置导入选项
+opts = spreadsheetImportOptions("NumVariables", 3);
+
+% 指定工作表和范围
+opts.Sheet = "Sheet1";
+opts.DataRange = "A1:C242";
+
+% 指定列名称和类型
+opts.VariableNames = ["VarName1", "VarName2", "VarName3"];
+opts.SelectedVariableNames = ["VarName1", "VarName2", "VarName3"];
+opts.VariableTypes = ["double", "double", "double"];
+
+% 导入数据
+data2 = readtable("data2.xlsx", opts, "UseExcel", false);
+
+%% 转化为输出类型
+VarName6=data2.VarName1;
+VarName7=data2.VarName2;
+VarName8=data2.VarName3;
+%% 清除临时变量
+clear opts
+
+
+%% 导入每分钟的航班
+flights=zeros(1440,1);
+for i=2:242
+    if VarName6(i,1)>=18&&VarName6(i,1)<=23
+        tt=(VarName6(i,1)-18)*60+VarName7(i,1);
+    else
+        tt=(6+VarName6(i,1))*60+VarName7(i,1);
+    end
+    if tt~=0
+        flights(tt,1)=flights(tt,1)+1;
+    end
+end
+        
+%% 生成等待时间模型
+x1=30:3:75;
+y1=20:1:35;
+z1=zeros(16,16);
+x2=[]; x3=[]; y2=[]; y3=[];
+ii=1;
+for i=x1
+    jj=0;
+    for j=y1
+        total=0;
+        jj=jj+1;
+        for k=1:20
+            total=total+waittime(1,i,j);
+        end
+        z1(ii,jj)=floor(total/20);
+        %if floor(total/20)>=90
+        %   x2=[x2,i];
+        %    y2=[y2,j];
+        %else
+        %   x3=[x3,i];
+        %    y3=[y3,j];
+        %end
+    end
+    ii=ii+1;
+end
+figure
+xx=linspace(30,120,100);
+yy=linspace(20,50,100);
+zz=griddata(x1,y1,z1,xx,yy','cubic');
+surf(xx,yy,zz);
+xlabel('航班间隔时间');
+ylabel('蓄车池数量');
+zlabel('等待时间');
+
+
+
+%% 生成误差模型
+wucha=zeros(1231,1);
+wucha2=zeros(1231,1);
+lilun=zeros(1231,1);
+shiji=zeros(1231,1);
+%x1=[]; x2=[]; y1=[]; y2=[];
+for i=1:1000
+    num=0;
+    for j=i:i+120
+        if flights(j,1)~=0
+            num=num+1;
+        end
+    end
+    if num==0
+        continue;
+    end
+    tmp=waittime(num,120,VarName3(i,1));
+    tmp2=i;
+    ww=0;
+    numofleave=0;
+    while numofleave<=VarName3(i,1)&&VarName5(tmp2+30,1)<=VarName3(i,1)-numofleave
+        tmp2=tmp2+30;
+        ww=ww+30;
+        numofleave=numofleave+VarName5(tmp2,1);
+    end
+    if VarName5(tmp2+30,1)>VarName3(i,1)-numofleave
+        ww=ww+(VarName3(i,1)-numofleave)/VarName5(tmp2+30,1)*30;
+    end
+    ww=round(ww);
+    if ww>=90
+        x1=[x1,floor(120/num)];
+        y1=[y1,VarName3(i,1)];
+    else
+        x2=[x2,floor(120/num)];
+        y2=[y2,VarName3(i,1)];
+    end
+    wucha(i,1)=(tmp-ww);
+    wucha2(i,1)=abs(tmp-ww)/ww;
+    lilun(i,1)=tmp;
+    shiji(i,1)=ww;
+end
+x1=x1(1:200);
+y1=y1(1:200);
+x2=x2(1:200);
+y2=y2(1:200);
+anss=wucha2(1:130,:);
+xd=mean(anss);
+\end{lstlisting}
+\subsection{出租车等待时间计算代码子函数}
+\begin{lstlisting}
+	function f = waittime(inputArg1,inputArg2,inputArg3)
+N=inputArg1;     %未来一段时间内来的航班数
+T=inputArg2;     %未来一段时间的持续时间minutes
+A=floor(T/N);    %minutes;航班每隔多少时间来一趟
+B=inputArg3;     %蓄车池个数
+t0=1;            %每个人上车需要1minutes
+delta=25;        %每来一个航班人走到出租车点的平均时间
+t=0;             %time 
+C=28;            %航班人数来乘车的平均数
+sigma=6;         %方差
+arrive=zeros(1000,1);
+leave=zeros(1000,1);
+currentnum=0;  
+while currentnum<=B
+    t=t+1;
+    if(mod(t,A)==0)
+        n=random('poisson',C);
+        currentnum=currentnum+n;
+    else
+        n=0;
+    end
+    for i=1:n
+        time=floor(normrnd(t+delta,sigma));
+        while time<t
+            time=floor(normrnd(t+delta,sigma));
+        end
+        arrive(time,1)=arrive(time,1)+1;
+    end
+end
+currentnum=0;
+t=0;
+while 1
+    t=t+1;
+    if arrive(t,1)~=0
+        break;
+    end
+end
+i=t;
+while currentnum<=B
+   if arrive(i,1)~=0
+       if arrive(i,1)<=4
+           num=round(rand()*arrive(i,1));
+           while num==0
+               num=round(rand()*arrive(i,1));
+           end
+       else
+           num=round(rand()*4);
+           while num==0
+           num=round(rand()*4);
+           end
+       end
+       arrive(i,1)=arrive(i,1)-num;
+       currentnum=currentnum+num;
+       if i<t
+           leave(t+t0,1)=leave(t+t0,1)+num;
+           t=t+t0;
+       else
+           leave(i+t0,1)=leave(i+t0,1)+num;
+           t=i+t0;
+       end
+   else
+       i=i+1;
+   end
+end
+   f=t;
+end
+
+
+\end{lstlisting}
+\subsection{出租车费用计算代码}
+\begin{lstlisting}
+	function f = fee(distance)
+distance=distance/1000;
+if distance<=3
+    f=14;
+else
+    if distance<=15
+        f=14+(distance-3)*2.5;
+    else
+        f=14+30+(distance-15)*3.6;
+    end
+end
+end
+
+\end{lstlisting}
+\subsection{计算优先权的函数}
+\begin{lstlisting}
+	function f = fun1(waitime,shouyi,afa)
+if shouyi==0
+    f=-waitime;
+else
+    f= -waitime+shouyi*afa;
+end
+end
+\end{lstlisting}
+\subsection{模拟基于优先权出租车调度代码}
+\begin{lstlisting}
+	function fangcha=thepath(x)
+global oo;
+global resukts;
+afa=x(1);
+r0=x(2);
+bili=x(3);
+oo=oo+1;
+%% 设置导入选项
+opts = spreadsheetImportOptions("NumVariables", 2);
+
+% 指定工作表和范围
+opts.Sheet = "Sheet1";
+opts.DataRange = "A2:B5000";
+
+% 指定列名称和类型
+opts.VariableNames = ["VarName1", "VarName2"];
+opts.SelectedVariableNames = ["VarName1", "VarName2"];
+opts.VariableTypes = ["double", "double"];
+
+% 导入数据
+tbl = readtable("suijibiao.xlsx", opts, "UseExcel", false);
+
+%% 转换为输出类型
+suijishu1 = tbl.VarName1;
+suijishu2 = tbl.VarName2;
+
+%% 清除临时变量
+clear opts tbl
+
+
+%%
+allnum=500;   %汽车总数
+v=250;        %平均车速30km/h 250m/min
+youfei=0.7;  %油费
+fenjie=10000;   %分界线 长短距离 训练 m
+s1=1:allnum;   %车排队序列 低优先级 下标代表目前所在位 数值代表车的标号
+s2=[];         %高优先级
+waitime=zeros(allnum,1);  %车目前等待时间 下标代表车编号
+avevas([1:allnum],1)=aveva; %车目前平均收益 下标代表车标号
+leave=0;            %不会再回来车的数量
+curnum=0 ;  %目前被超车的次数
+times=zeros(allnum,1);  %时间事件表 若值不为0，即为该时刻有车来排队
+allwaittime=zeros(allnum,1); %每一辆车 总等待时间
+alldistance=zeros(allnum,1); %每一辆车 总路程
+results=zeros(allnum,1);  %结果 最后的总收益
+t=0;        %计时
+backto=zeros(allnum,1);  %回来的次数
+sigma=3000;   %标准差
+mu=10000;     %平均值
+MAX=9999;
+zz=1;
+zzz=1;
+while leave<allnum
+    t=t+1;  %时间加1
+    
+    % 所有正在等待车时间加一
+    for i=s1
+        if i~=0
+            waitime(i,1)=waitime(i,1)+1;
+            allwaittime(i,1)=allwaittime(i,1)+1;
+        end
+    end
+    for i=s2
+        if i~=0
+            waitime(i,1)=waitime(i,1)+1;
+            allwaittime(i,1)=allwaittime(i,1)+1;
+        end
+    end
+    
+    % 将返程车加入排队队列中
+    for j=1:allnum
+        if times(j,1)==t  %j为返程的车
+            if fun1(waitime(j,1),results(j,1),afa)<r0
+                s2=[s2,j];
+                backto(j,1)=fun1(waitime(j,1),results(j,1),afa);
+            else
+                s1=[s1,j];
+                backto(j,1)=fun1(waitime(j,1),results(j,1),afa);
+            end
+            waitime(j,1)=0;
+            
+        end
+    end
+    
+    if length(s1)+length(s2)==0
+        continue;
+    end
+    
+    % 从排队序列选出下一次走的车
+    if ~isempty(s2)&&(curnum<bili||isempty(s1))
+        curno=s2(1,1);
+        curnum=curnum+1;
+        if length(s2)>1
+            s2=s2(2:end);
+        else
+            s2=[];
+        end
+    else
+        curno=s1(1,1);
+        curnum=0;
+        if length(s1)>1
+            s1=s1(2:end);
+        else
+            s1=[];
+        end
+    end
+   
+    % 获得随机路程
+    tmp=suijishu1(zz);
+    zz=zz+1;
+    while tmp<=0
+        tmp=suijishu1(zz);
+        zz=zz+1;
+    end
+    if tmp>=fenjie
+        results(curno,1)=results(curno,1)+fee(tmp)-tmp/1000*youfei;
+        alldistance(curno,1)=alldistance(curno,1)+tmp;
+        leave=leave+1;
+    else
+        results(curno,1)=results(curno,1)+fee(tmp)-tmp/1000*youfei;
+        alldistance(curno,1)=alldistance(curno,1)+tmp;
+        therand=suijishu2(zzz);
+        zzz=zzz+1;
+        if therand>=0.5
+            results(curno,1)=results(curno,1)-tmp/1000*youfei;
+            alldistance(curno,1)=alldistance(curno,1)+tmp;
+            times(curno)=round(t+tmp/v*2);
+        else
+            leave=leave+1;
+        end
+    end
+end
+
+for i=1:allnum
+    allwaittime(i,1)=allwaittime(i,1)-i+1;
+    avevas(i,1)=results(i,1)/(allwaittime(i,1)+alldistance(i,1)/v);
+end
+fangcha=var(avevas);
+resukts(oo,1)=fangcha;
+end
 \end{lstlisting}
 \end{document}

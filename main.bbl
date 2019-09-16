@@ -1,0 +1,48 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\relax\else
+  \urlstyle{same}\fi
+\providecommand{\href}[2]{\url{#2}}
+\providecommand{\doi}[1]{\href{https://doi.org/#1}{#1}}
+
+\bibitem[何选森(2010)]{queuebook}
+何选森.
+\newblock 随机过程与排队论\allowbreak[M].
+\newblock 长沙: 湖南大学出版社, 2010.
+
+\bibitem[岳喜展(1994)]{taxidata}
+岳喜展.
+\newblock
+  机场陆侧交通需求预测及集散道路方案设计\allowbreak[D].
+\newblock 长春: 吉林大学, 1994.
+
+\bibitem[tax(2015)]{taxireport}
+公交\uppercase\expandafter{\romannumeral2}行业：出租车深度报告\allowbreak[R].
+\newblock 广州: 广发证券, 2015.
+
+\bibitem[fli(9)]{flightdata}
+郑州机场陆侧交通需求预测及交通组织方案研究\allowbreak[C]//\allowbreak
+北京:
+  中国城市规划学会城市交通规划学术委员会:中国城市规划学会,
+  9.
+
+\bibitem[M(1997)]{ga_al}
+M~L~R.
+\newblock An introduction to genetic algorithms\allowbreak[J].
+\newblock Information Processing Management, 1997, 33\penalty0 (3):\penalty0
+  407.
+
+\bibitem[陈华根\ 等(2004)陈华根, 吴健生, 王家林, and
+  陈冰]{sa_al}
+陈华根, 吴健生, 王家林, 等.
+\newblock 模拟退火算法机理研究\allowbreak[J].
+\newblock 同济大学学报（自然科学版）, 2004, 32\penalty0
+  (6):\penalty0 802-805.
+
+\bibitem[王旖旎(2012)]{pso_al}
+王旖旎.
+\newblock 粒子群算法综述\allowbreak[J].
+\newblock 网络导报·在线教育, 2012.
+
+\end{thebibliography}

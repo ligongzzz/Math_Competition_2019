@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/W32TeX)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: gbt7714-unsrt.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: ref.bib
+Warning--empty author and editor in taxireport
+Warning--empty author in flightdata
+Warning--empty booktitle in flightdata
+You've used 7 entries,
+            4075 wiz_defined-function locations,
+            897 strings with 6886 characters,
+and the built_in function-call counts, 11135 in all, are:
+= -- 384
+> -- 855
+< -- 1383
++ -- 539
+- -- 77
+* -- 152
+:= -- 1717
+add.period$ -- 18
+call.type$ -- 7
+change.case$ -- 9
+chr.to.int$ -- 440
+cite$ -- 12
+duplicate$ -- 144
+empty$ -- 376
+format.name$ -- 42
+if$ -- 2852
+int.to.chr$ -- 1
+int.to.str$ -- 8
+missing$ -- 0
+newline$ -- 42
+num.names$ -- 15
+pop$ -- 328
+preamble$ -- 1
+purify$ -- 7
+quote$ -- 0
+skip$ -- 841
+stack$ -- 0
+substring$ -- 590
+swap$ -- 10
+text.length$ -- 45
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 79
+warning$ -- 3
+while$ -- 58
+width$ -- 0
+write$ -- 100
+(There were 3 warnings)
